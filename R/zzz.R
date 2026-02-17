@@ -6,6 +6,14 @@ NULL
 #' @export kirPredict
 NULL
 
+#' @export kirParallelAttrBagging
+NULL
+
+
+#' @export predict.hlaAttrBagClass
+NULL
+
+
 
 
 

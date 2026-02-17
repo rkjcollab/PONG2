@@ -1,10 +1,21 @@
 #!/bin/bash
 # Auto-Installer for Required Genomics Binaries
 
+OUTPUT_DIR="$1"
+ASSEMBLY="$2"
+TOOL=$3
 # Configuration
 BIN_DIR="$HOME/bin"
-REQUIRED_APPS=("plink2" "minimac4", "hg19")
+
+if [ "$TOOL" == "minimac4" ]; then
+  REQUIRED_APPS=("$TOOL" "hg")
+else
+  REQUIRED_APPS=("$TOOL")
+fi
+
 export PATH="$BIN_DIR:$PATH"  # Add to PATH temporarily
+
+hg=("ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes", "1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel")
 
 # Color codes
 RED='\033[0;31m'
@@ -15,6 +26,14 @@ NC='\033[0m'
 
 # Create bin directory if missing
 mkdir -p "$BIN_DIR"
+mkdir -p "$OUTPUT_DIR/tmp"
+PONG2_root=$(Rscript -e 'cat(system.file(package="PONG2"))' 2>/dev/null)
+
+if [ $ASSEMBLY = "hg19" ]; then
+  ref_file="ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes"
+else
+  ref_file="1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel"
+fi
 
 install_plink2() {
     echo -e "${YELLOW}Installing PLINK2...${NC}"
@@ -33,7 +52,7 @@ install_plink2() {
         CYGWIN*-*|MINGW*-*|MSYS*-*)  # Windows (Cygwin/Git Bash)
             url="https://s3.amazonaws.com/plink2-assets/alpha6/plink2_win64_20250707.zip"
             ;;
-        *) 
+        *)
             echo -e "${RED}❌ Unsupported platform: $(uname -s)-$(uname -m)${NC}"
             return 1
             ;;
@@ -75,7 +94,7 @@ install_minimac4() {
 
     echo -e "${YELLOW}Installing Minimac4 for Linux...${NC}"
     local url="https://github.com/statgen/Minimac4/releases/download/v4.1.6/minimac4-4.1.6-Linux-x86_64.sh"
-    local installer="$BIN_DIR/minimac4-installer.sh"
+    local installer="$OUTPUT_DIR/tmp/minimac4-installer.sh"
 
     # Download
     if ! wget -q --show-progress "$url" -O "$installer"; then
@@ -85,10 +104,13 @@ install_minimac4() {
 
     # Install
     chmod +x "$installer"
-    if ! "$installer" -b -p "$BIN_DIR"; then
+    if ! "$installer" --skip-license --prefix="$OUTPUT_DIR/tmp"; then
         echo -e "${RED}Installation failed${NC}"
         return 1
     fi
+
+    #move minimac to  $BIN_DIR
+    mv "$OUTPUT_DIR/tmp/bin/minimac4" $BIN_DIR/
 
     # Verify
     if "$BIN_DIR/minimac4" --version &>/dev/null; then
@@ -101,65 +123,81 @@ install_minimac4() {
     fi
 }
 
-install_eagle() {
-    local version="v2.4.1"
-    local temp_dir=$(mktemp -d)
-    local archive="Eagle_${version}.tar.gz"
-    local download_url="https://storage.googleapis.com/broad-alkesgroup-public/Eagle/downloads/${archive}"
+install_ref(){
+    # Check if ASSEMBLY variable equals "hg19"
+    if [ "$ASSEMBLY" = "hg19" ]; then
+        local ref="$PONG2_root/extdata/hg19/"
+        local installer1="$OUTPUT_DIR/tmp/${hg[0]}.vcf.gz"
+        local installer2="$OUTPUT_DIR/tmp/${hg[0]}.vcf.gz.tbi"
 
-    echo -e "${YELLOW}Installing Eagle ${version}...${NC}"
+        echo -e "${YELLOW}Downloading hg19 reference...${NC}"
+        local url1="https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/${hg[0]}.vcf.gz"
+        local url2="https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/${hg[0]}.vcf.gz.tbi"
 
-    # Download and extract
-    if ! wget -q --show-progress "$download_url" -O "$temp_dir/$archive"; then
-        echo -e "${RED}❌ Download failed${NC}"
-        rm -rf "$temp_dir"
-        return 1
-    fi
-
-    if ! tar -xzf "$temp_dir/$archive" -C "$temp_dir"; then
-        echo -e "${RED}❌ Extraction failed${NC}"
-        rm -rf "$temp_dir"
-        return 1
-    fi
-
-    # Install binary
-    mkdir -p "$BIN_DIR"
-    if ! mv "$temp_dir/eagle" "$BIN_DIR/"; then
-        echo -e "${RED}❌ Installation failed (permission issue?)${NC}"
-        rm -rf "$temp_dir"
-        return 1
-    fi
-
-    # Set permissions
-    chmod +x "$BIN_DIR/eagle"
-
-    # Cleanup
-    rm -rf "$temp_dir"
-    
-    # Verify
-    if "$BIN_DIR/eagle" --version &>/dev/null; then
-        echo -e "${GREEN}✓ Eagle ${version} installed to $BIN_DIR/eagle${NC}"
-        return 0
     else
-        echo -e "${RED}❌ Installation verification failed${NC}"
+        local ref="$PONG2_root/extdata/hg38/"
+        local installer1="$OUTPUT_DIR/tmp/${hg[1]}.vcf.gz"
+        local installer2="$OUTPUT_DIR/tmp/${hg[1]}.vcf.gz.tbi"
+
+        echo -e "${YELLOW}Downloading hg38 reference...${NC}"
+        local url1="https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/${hg[1]}.vcf.gz"
+        local url2="https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV/${hg[1]}.vcf.gz.tbi"
+
+    fi
+
+
+    # Download
+    if ! wget -q --show-progress "$url1" -O "$installer1"; then
+        echo -e "${RED}Download failed${NC}"
         return 1
+    fi
+
+    if ! wget -q --show-progress "$url2" -O "$installer2"; then
+        echo -e "${RED}Download failed${NC}"
+        return 1
+    fi
+
+    #minimac4 --compress-reference reference.{sav,bcf,vcf.gz} > reference.msav
+    echo -e "${BLUE}Compressing reference data (this may take several minutes)...${NC}"
+    if ! "$BIN_DIR/minimac4" "--compress-reference" "$installer1" > "$OUTPUT_DIR/tmp/$ref_file.msav"; then
+      echo -e "${RED}minimac4 failed for --compress-reference ${NC}"
+      return 1
+    fi
+
+    if ! mv "$OUTPUT_DIR/tmp/$ref_file.msav" "$ref"; then
+      return 1
     fi
 }
-
-
 
 prompt_install() {
     local app=$1
     while true; do
-        read -rp "Install $app? [y/n]: " yn
+        if [[ "$app"=="hg" ]]; then
+          Install="Download $ASSEMBLY"
+          Installation="Downloading"
+        else
+            Install="Install $app"
+            Installation="Installation"
+        fi
+        read -rp "$Install? [y/n]: " yn
         case "$yn" in
             [Yy]*)
-                "install_${app}" && return 0
-                echo -e "${RED}Installation aborted${NC}"
-                return 1
+                if [[ "$app"=="hg" ]]; then
+                  "install_ref"
+                else
+                    "install_${app}"
+                fi
+
+                # Check if installation succeeded
+                if [[ $? -eq 0 ]]; then
+                    return 0
+                else
+                    echo -e "${RED}$Installation failed for $app${NC}"
+                    return 1
+                fi
                 ;;
             [Nn]*)
-                echo -e "${YELLOW}Skipping $app installation${NC}"
+                echo -e "${YELLOW}Skipping $app $Installation${NC}"
                 return 1
                 ;;
             *)
@@ -176,18 +214,29 @@ missing_count=0
 for app in "${REQUIRED_APPS[@]}"; do
     if command -v "$app" >/dev/null 2>&1; then
         echo -e "${GREEN}Found: $app ($(command -v "$app"))${NC}"
+
+    elif [[ -f "$PONG2_root/extdata/$ASSEMBLY/$ref_file.msav" ]]; then
+      echo -e "${GREEN}Found: $app ($PONG2_root/extdata/$ASSEMBLY/$ref_file.msav)${NC}"
+
     else
-        echo -e "${RED}Missing: $app${NC}"
-        if prompt_install "$app"; then
-            echo -e "${GREEN}Successfully installed $app${NC}"
-        else
-            ((missing_count++))
-        fi
+       if [[ "$app" != "${hg[0]}" && "$app" != "${hg[1]}" ]]; then
+          echo -e "${RED}Missing: $app${NC}"
+          Install="install $app"
+      else
+        echo -e "${GREEN} Missing $ASSEMBLY${NC}"
+        Install="download $ASSEMBLY"
+      fi
+     if prompt_install "$app"; then
+          echo -e "${GREEN}Successfully $Install${NC}"
+      else
+          ((missing_count++))
+          echo $missing_count
+          exit 1
+      fi
     fi
 done
-
 # Permanent PATH setup suggestion
-echo -e "\n${YELLOW}Add this to your ~/.bashrc or ~/.zshrc:${NC}"
-echo "export PATH=\"\$HOME/bin:\$PATH\""
+#echo -e "\n${YELLOW}Add this to your ~/.bashrc or ~/.zshrc:${NC}"
+export PATH=$HOME/bin:$PATH
 
-echo -e "\n${GREEN}All tools are now available!${NC}"
+#echo -e "\n${GREEN}All tools are now available!${NC}"

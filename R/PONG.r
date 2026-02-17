@@ -3,7 +3,7 @@
 # Package Name: PONG2 Version 0.9.1
 #
 # Description:
-#   PONG2 -- KIR3DL1/S1 Genotype Imputation with Attribute Bagging
+#   PONG2 -- KIR Genotype Imputation with Attribute Bagging
 #   Modified from HIBAG
 #
 # Author: Laura Ann Leaton & Genelle F Harrison
@@ -1187,7 +1187,7 @@ hlaLociInfo <- function(assembly =
 
 		}else if (assembly == "hg38")
 		{
-			fn <- system.file("extdata", sprintf("GeneInfo_%s.txt", assembly), package = "PONG2")
+			fn <- system.file(sprintf("extdata/%s", assembly), sprintf("GeneInfo_%s.txt", assembly), package = "PONG2")
 			if (file.exists(fn)){
 				v <- read.table(fn, header = TRUE, sep = "", stringsAsFactors = FALSE)
 				rownames(v) <- v$name
@@ -2090,7 +2090,7 @@ hlaAttrBagging <- function(hla, snp, nclassifier=100,
 # To fit an attribute bagging model for predicting
 #
 
-hlaParallelAttrBagging <- function(cl, hla, snp, auto.save="",
+kirParallelAttrBagging <- function(cl, hla, snp, auto.save="",
 	nclassifier=100, mtry=c("sqrt", "all", "one"), prune=TRUE, rm.na=TRUE,
 	stop.cluster=FALSE, verbose=TRUE)
 {
@@ -2291,7 +2291,7 @@ hlaCheckSNPs <- function(model, object,
 #######################################################################
 # Predict KIR3DL1/S1 alleles from unphased SNP data
 #
-
+#' @export
 predict.hlaAttrBagClass <- function (object, snp, cl = FALSE, type = c("response+dosage",
     "response", "prob", "response+prob"), vote = c("prob", "majority"),
     allele.check = TRUE, match.type = c("Position", "Pos+Allele",
@@ -3589,6 +3589,8 @@ setup_PONG2 <- function() {
 
   # Define paths
   scripts_dir <- file.path(pkg_dir, "scripts")
+  #target_bin_dir <- file.path(Sys.getenv("HOME"), ".local", "bin")
+  #target_bin_dir <- file.path(Sys.getenv("HOME"), "bin")
   target_bin_dir <- file.path(Sys.getenv("HOME"), ".local", "bin")
   cli_name <- "pong2"
 
@@ -3632,7 +3634,7 @@ setup_PONG2 <- function() {
 {
   message("** initializing environment")
 	rv <- .C("PONG2_Init", SSE.Flag=integer(1), PACKAGE="PONG2")
-	registerS3method("predict", "hlaAttrBagClass", predict.hlaAttrBagClass)
+	#registerS3method("predict", "hlaAttrBagClass", predict.hlaAttrBagClass)
 	# information
 	packageStartupMessage("PONG2 (Genotype Imputation with Attribute Bagging): v2.0.0")
 	if (rv$SSE.Flag != 0)

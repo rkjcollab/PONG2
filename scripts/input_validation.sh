@@ -22,7 +22,7 @@ NC='\033[0m' # No Color
 #  Smart Path Detection ---------------------------------------------------
 get_package_root() {
     # Try package installation path first
-    local pkg_path=$(Rscript -e 'cat(system.file(package="PONG"))' 2>/dev/null)
+    local pkg_path=$(Rscript -e 'cat(system.file(package="PONG2"))' 2>/dev/null)
 
     if [[ -z "$pkg_path" ]]; then
         # Development mode - get path relative to this script

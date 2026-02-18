@@ -250,8 +250,6 @@ If you use PONG2 in your research, please cite:
 
 ### Contact & Support
 
-```markdown
-
 - **GitHub Issues** (preferred for bug reports, feature requests, questions):  
   [https://github.com/NormanLabUCD/PONG2/issues](https://github.com/NormanLabUCD/PONG2/issues)
 
@@ -264,7 +262,6 @@ If you use PONG2 in your research, please cite:
 
 We aim to respond to issues within 1–3 business days.  
 Thank you for using PONG2 — happy KIR analysis! 🧬
-```
 
 
 

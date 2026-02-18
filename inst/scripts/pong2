@@ -44,11 +44,19 @@ THREADS=20
 FILTER=0.01
 FORCE="false"
 FILL_MISSING="false"
-declare -A pos=(
-    ['hg19']="55000000 55400000 19"
-    ['hg38']="54000000 55000000 chr19"
-)
 
+# declare -A pos=(
+#     ["hg19"]="55000000 55400000 19"
+#     ["hg38"]="54000000 55000000 chr19"
+# )
+
+pos() {
+    case "$1" in
+        hg19) echo "55000000 55400000 19" ;;
+        hg38) echo "54000000 55000000 chr19" ;;
+        *)    echo "Unknown assembly: $1" >&2; exit 1 ;;
+    esac
+}
 
 #Development mode
 #R CMD INSTALL --preclean --with-keep.source --no-multiarch .
@@ -81,7 +89,8 @@ function train_model() {
   TRAIN_KIR_MODEL=$($RSCRIPT  -e "cat(system.file('scripts', 'train.R', package='PONG2'))")
 
   mkdir -p "$OUTPUT_DIR/tmp"
-  read start end chr <<< "${pos["$ASSEMBLY"]}"
+  #read start end chr <<< "${pos["$ASSEMBLY"]}"
+  read start end chr <<< "$(pos "$ASSEMBLY")"
 
   awk -F',' '{print $1, $1}' $KIR_FILE > $OUTPUT_DIR/tmp/kir_sample.txt
   plink2 --bfile $BIM_FILE --keep $OUTPUT_DIR/tmp/kir_sample.txt --make-bed --out $OUTPUT_DIR/tmp/temp
@@ -101,7 +110,8 @@ function imputation() {
     #Rscript -e 'PONG2::kirPredict'
     #echo -e "${GREEN}Starting imputation...${NC}"
     mkdir -p "$OUTPUT_DIR/tmp"
-    read start end chr <<< "${pos["$ASSEMBLY"]}"
+    #read start end chr <<< "${pos["$ASSEMBLY"]}"
+    read start end chr <<< "$(pos "$ASSEMBLY")"
 
     #source "$PONG2_root/scripts/input_validation.sh"
 

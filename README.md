@@ -144,6 +144,7 @@ pong2 impute [options]
 | `-t, --threads` | `20` | Number of CPU threads |
 | `-f, --force` | `false` | Proceed even if SNP matching rate is low |
 | `--fill-missing` | `false` | Impute missing SNPs locally with minimac4 |
+| `-m, --model` | `false` | imputation with your own built model |
 
 
 ### train command
@@ -186,7 +187,7 @@ eagle \
   --bpStart=55200000 \
   --bpEnd=55300000
 ```
-- Option A: Run PONG2 with local pre-imputation using minimac4 (built-in – quick & automated)
+- Option A: Run PONG2 with local pre-imputation using minimac4 (built-in – quick & automated) using flag the `--fill-missing`
 
 ```bash
 #Use the `--fill-missing` flag when running `impute`:
@@ -198,7 +199,7 @@ pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 --fill-missing 
 pre-impute your chr19 data using a public imputation server before running PONG2.
 Recommended server: Michigan Imputation Server (https://imputationserver.sph.umich.edu/)
 
-- You may chose to force PONG2 to continue even with low SNP matching rate
+- You may chose to force PONG2 to continue even with low SNP matching rate using the flag `-f or --force`
 ```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 -f
 ```

@@ -258,7 +258,7 @@ If you use PONG2 in your research, please cite:
   paul.norman@cuanschutz.edu
 
 - **Lab / Institution**:  
-  Norman Lab  
+  [Norman Lab](https://medschool.cuanschutz.edu/dbmi/lab-pages/norman-lab)  
   [University of Colorado Anschutz Medical Campus](https://www.cuanschutz.edu/)  
   Department of Biomedical Informatics, Immunology & Microbiology
 

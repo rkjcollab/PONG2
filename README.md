@@ -251,21 +251,22 @@ If you use PONG2 in your research, please cite:
 ### Contact & Support
 
 ```markdown
-## Contact & Support
 
 - **GitHub Issues** (preferred for bug reports, feature requests, questions):  
-  https://github.com/NormanLabUCD/PONG2/issues
+  [https://github.com/NormanLabUCD/PONG2/issues](https://github.com/NormanLabUCD/PONG2/issues)
 
 - **Email** (for collaboration, private inquiries, or urgent support):  
   paul.norman@cuanschutz.edu
 
 - **Lab / Institution**:  
-  Norman Lab / [University of Colorado / Department of Biomedical Informatics, Immunology & Microbiology]
+  Norman Lab, University of Colorado Anschutz Medical Campus  
+  Department of Biomedical Informatics, Immunology & Microbiology
 
-We aim to respond to issues within 1–3 business days.
-
-Happy KIR analysis! 🧬
+We aim to respond to issues within 1–3 business days.  
+Thank you for using PONG2 — happy KIR analysis! 🧬
 ```
+
+
 
 
 

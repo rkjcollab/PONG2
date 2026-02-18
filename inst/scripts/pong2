@@ -44,11 +44,11 @@ THREADS=20
 FILTER=0.01
 FORCE="false"
 FILL_MISSING="false"
-
 declare -A pos=(
-    ["hg19"]="55000000 55400000 19"
-    ["hg38"]="54000000 55000000 chr19"
+    ['hg19']="55000000 55400000 19"
+    ['hg38']="54000000 55000000 chr19"
 )
+
 
 #Development mode
 #R CMD INSTALL --preclean --with-keep.source --no-multiarch .

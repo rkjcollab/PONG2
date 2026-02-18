@@ -125,7 +125,7 @@ pong2 --help train          # Detailed help for training
 pong2 version               # Show version number
 ```
 
-####impute command
+###impute command
 ```bash
 pong2 impute [options]
 ```
@@ -136,7 +136,7 @@ pong2 impute [options]
 | `-l, --locus` | Target locus (currently only KIR is supported) | `KIR` |
 | `-a, --assembly` | Genome build used in the data | `hg19` or `hg38` |
 
-####Optional flags
+###Optional flags
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
@@ -146,7 +146,7 @@ pong2 impute [options]
 | `--fill-missing` | `false` | Impute missing SNPs locally with minimac4 |
 
 
-####train command
+###train command
 ```bash
 pong2 train [options]
 ```
@@ -158,7 +158,7 @@ pong2 train [options]
 | `-l, --locus` | KIR |
 | `-a, --assembly` | hg19 or hg38 |
 
-####Optional flags
+###Optional flags
 | Flag | Default | Description |
 | :--- | :--- | :--- |
 | `-t, --threads` | `20` | Number of CPU threads |

@@ -201,7 +201,7 @@ Recommended server: Michigan Imputation Server (https://imputationserver.sph.umi
 ```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 -f
 ```
-#### 3
+#### 3.
 ```bash
 pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg19 -t 24
 ```

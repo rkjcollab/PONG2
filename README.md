@@ -201,7 +201,7 @@ If you use PONG2 in your research, please cite:
 > *Human Immunology*, 86, 111488.  
 > https://doi.org/10.1016/j.humimm.2025.111488
 ```
-###BibTeX entry:
+### BibTeX entry:
 
 ```bibtex
 @article{sadeeq2025pong,

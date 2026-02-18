@@ -165,13 +165,44 @@ pong2 train [options]
 | `--pos` | *Optional* | Optional KIR region |
 
 ### Examples
+#### 1.
 ```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19
-Pre-imputation (recommended for best accuracy)
-Uses minimac4 + bundled reference panels.
-pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 --fill-missing -t 32
+```
+#### 2. Pre-imputation (recommended for best accuracy)
+If the initial SNP matching rate in the KIR region is low (e.g., < 50%), PONG2 provides two main 
+strategies to improve accuracy by imputing missing or low-quality SNPs **before** running the core PONG2 prediction step.
 
+### Note:Pre-phasing the KIR region is required for both local and external pre-imputation (https://alkesgroup.broadinstitute.org/Eagle/)
+
+```bash
+eagle \
+  --bfile=hg19 \
+  --geneticMapFile=genetic_map_hg19.txt.gz \
+  --outPrefix=chr19.phased \
+  --chrom=19 \
+  --numThreads=50 \
+  --bpStart=55200000 \
+  --bpEnd=55300000
+```
+- Option A: Run PONG2 with local pre-imputation using minimac4 (built-in – quick & automated)
+
+```bash
+#Use the `--fill-missing` flag when running `impute`:
+pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 --fill-missing -t 32
+```
+
+- Option B: External pre-imputation (recommended for highest accuracy)
+
+pre-impute your chr19 data using a public imputation server before running PONG2.
+Recommended server: Michigan Imputation Server (https://imputationserver.sph.umich.edu/)
+
+- You may chose to force PONG2 to continue even with low SNP matching rate
+```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 -f
+```
+### 3
+```bash
 pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg19 -t 24
 ```
 

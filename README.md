@@ -173,7 +173,7 @@ pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19
 If the initial SNP matching rate in the KIR region is low (e.g., < 50%), PONG2 provides two main 
 strategies to improve accuracy by imputing missing or low-quality SNPs **before** running the core PONG2 prediction step.
 
-### Note:Pre-phasing the KIR region is required for both local and external pre-imputation (https://alkesgroup.broadinstitute.org/Eagle/)
+#### Note: Pre-phasing the KIR region is required for both local and external pre-imputation (https://alkesgroup.broadinstitute.org/Eagle/)
 
 ```bash
 eagle \
@@ -201,7 +201,7 @@ Recommended server: Michigan Imputation Server (https://imputationserver.sph.umi
 ```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 -f
 ```
-### 3
+#### 3
 ```bash
 pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg19 -t 24
 ```

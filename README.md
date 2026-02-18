@@ -260,7 +260,7 @@ If you use PONG2 in your research, please cite:
 - **Lab / Institution**:  
   [Norman Lab](https://medschool.cuanschutz.edu/dbmi/lab-pages/norman-lab)  
   [University of Colorado Anschutz Medical Campus](https://www.cuanschutz.edu/)  
-  Department of Biomedical Informatics, Immunology & Microbiology
+  [Department of Biomedical Informatics](https://news.cuanschutz.edu/dbmi), [Immunology & Microbiology](https://medschool.cuanschutz.edu/basic-sciences/departments/immunology-and-microbiology)
 
 We aim to respond to issues and emails within 1–3 business days.  
 Thank you for using PONG2 — happy KIR analysis! 🧬

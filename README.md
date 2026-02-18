@@ -225,16 +225,16 @@ You are free to use, modify, and distribute PONG2, provided that:
 See the [GNU GPL-3.0 page](https://www.gnu.org/licenses/gpl-3.0.en.html) for details.
 ```
 
-## Citation
-```markdown
+### Citation
+
 If you use PONG2 in your research, please cite:
 
 > Sadeeq, S. A., Leaton, L., Castelli, E., & Norman, P. (2025).  
 > PONG 2.0: Allele imputation for the killer cell immunoglobulin-like receptors.  
 > *Human Immunology*, 86, 111488.  
 > https://doi.org/10.1016/j.humimm.2025.111488
-```
-### BibTeX entry:
+
+**BibTeX entry**:
 
 ```bibtex
 @article{sadeeq2025pong,
@@ -244,13 +244,11 @@ If you use PONG2 in your research, please cite:
   volume  = {86},
   pages   = {111488},
   year    = {2025},
-  doi     = {10.1016/j.humimm.2025.111488}
+  doi     = {10.1016/j.humimm.2025.111488},
+  url     = {https://doi.org/10.1016/j.humimm.2025.111488}
 }
-```
 
 ### Contact & Support
-
-```markdown
 
 - **GitHub Issues** (preferred for bug reports, feature requests, questions):  
   [https://github.com/NormanLabUCD/PONG2/issues](https://github.com/NormanLabUCD/PONG2/issues)
@@ -260,12 +258,11 @@ If you use PONG2 in your research, please cite:
 
 - **Lab / Institution**:  
   Norman Lab  
-  University of Colorado Anschutz Medical Campus  
+  [University of Colorado Anschutz Medical Campus](https://www.cuanschutz.edu/)  
   Department of Biomedical Informatics, Immunology & Microbiology
 
 We aim to respond to issues and emails within 1–3 business days.  
 Thank you for using PONG2 — happy KIR analysis! 🧬
-```
 
 
 

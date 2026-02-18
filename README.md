@@ -177,7 +177,7 @@ strategies to improve accuracy by imputing missing or low-quality SNPs **before*
 
 ```bash
 eagle \
-  --bfile=hg19 \
+  --bfile=chr19 \
   --geneticMapFile=genetic_map_hg19.txt.gz \
   --outPrefix=chr19.phased \
   --chrom=19 \

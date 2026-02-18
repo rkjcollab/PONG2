@@ -2,7 +2,7 @@
 
 [![R](https://img.shields.io/badge/R-%3E%3D%204.0-blue?logo=r&logoColor=white)](https://www.r-project.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub release](https://img.shields.io/github/v/release/NormanLabUCD/PONG2)](https://github.com/NormanLabUCD/PONG2/releases)
+[![GitHub release](https://img.shields.io/github/v/release/NormanLabUCD/PONG2)](https://github.com/NormanLabUCD/PONG2/releases/tag/v1.0.0)
 <!-- Add real CI badge if you set up GitHub Actions later -->
 <!-- [![R-CMD-check](https://github.com/NormanLabUCD/PONG2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NormanLabUCD/PONG2/actions) -->
 
@@ -89,6 +89,7 @@ remotes::install_github("https://github.com/NormanLabUCD/PONG2")
 ```
 
 ### Standard install
+Download the source tarball from the release: [PONG2_1.0.0.tar.gz](https://github.com/NormanLabUCD/PONG2/releases/download/v1.0.0/PONG2_1.0.0.tar.gz)
 ```bash
 R CMD INSTALL PONG2_1.0.0.tar.gz
 ```

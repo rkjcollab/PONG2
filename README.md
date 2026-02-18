@@ -89,61 +89,84 @@ if (!require("remotes", quietly = TRUE)) {
 remotes::install_github("https://github.com/NormanLabUCD/PONG2")
 ```
 
-# Standard install
+### Standard install
+```bash
 R CMD INSTALL PONG2_1.0.0.tar.gz
+```
 
-# Custom library path
+### Custom library path
+```bash
 R CMD INSTALL --library="installation path" PONG2_1.0.0.tar.gz
+```
 
-# USAGE
+### USAGE
+```bash
 pong2 <command> [options]
-## Basic imputation
+```
+### Basic imputation
+```bash
 pong2 impute -i bfile -o output -l KIR -a hg19
+```
 
-## Imputation with local missing SNP fill-in
+### Imputation with local missing SNP fill-in
+```bash
 pong2 impute -i bfile -o output -l KIR -a hg19 --fill-missing -t 20
+```
 
-## Train a new model
+### Train a new model
+```bash
 pong2 train -i bfile -k kfile -o output -l KIR -a hg19 -t 20
-
-## Specific detailed help
+```
+### Specific detailed help
+```bash
 pong2 --help                # General overview + list of commands
 pong2 --help impute         # Detailed help for imputation
 pong2 --help train          # Detailed help for training
 pong2 version               # Show version number
+```
 
-#impute command
+####impute command
+```bash
 pong2 impute [options]
-Flag,Description,Example value
-"-i, --input",PLINK bed/bim/fam prefix (should cover KIR locus on chr19),data/my_genotypes_chr19
-"-o, --output",Output directory (will be created if it doesn't exist),results/imputation
-"-l, --locus",Target locus (currently only KIR is supported),e.g, KIR3DL1 KIR3DL2
-"-a, --assembly",Genome build used in the data,hg19 or hg38
+```
+| Flag | Description | Example Value |
+| :--- | :--- | :--- |
+| `-i, --input` | PLINK bed/bim/fam prefix (should cover KIR locus on chr19) | `data/my_genotypes_chr19` |
+| `-o, --output` | Output directory (will be created if it doesn't exist) | `results/imputation` |
+| `-l, --locus` | Target locus (currently only KIR is supported) | `KIR` |
+| `-a, --assembly` | Genome build used in the data | `hg19` or `hg38` |
 
-Optional flags
-Flag,Default,Description
---filter,0.01 or 0.005,KIR genotype quality filter threshold used in model training
-"-t, --threads",20,Number of CPU threads
-"-f, --force",false,Proceed even if SNP matching rate is low
---fill-missing,false,Impute missing SNPs locally with minimac4
+####Optional flags
 
-#train command
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `--filter` | `0.01` or `0.005` | KIR genotype quality filter threshold used in model training |
+| `-t, --threads` | `20` | Number of CPU threads |
+| `-f, --force` | `false` | Proceed even if SNP matching rate is low |
+| `--fill-missing` | `false` | Impute missing SNPs locally with minimac4 |
+
+
+####train command
+```bash
 pong2 train [options]
+```
+| Flag | Description |
+| :--- | :--- |
+| `-i, --bfile` | Reference PLINK bed/bim/fam prefix |
+| `-k, --kfile` | CSV with sample IDs and KIR calls (e.g., sample KIR3DL1_h1 KIR3DL1_h2) |
+| `-o, --output` | Directory to save trained model |
+| `-l, --locus` | KIR |
+| `-a, --assembly` | hg19 or hg38 |
 
-Flag,Description
-"-i, --bfile",Reference PLINK bed/bim/fam prefix
-"-k, --kfile",CSV with sample IDs and KIR calls (e.g., sample KIR3DL1_h1 KIR3DL1_h2)
-"-o, --output",Directory to save trained model
-"-l, --locus",KIR
-"-a, --assembly",hg19 or hg38
+####Optional flags
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `-t, --threads` | `20` | Number of CPU threads |
+| `--filter` | `0.01` or `0.005` | KIR genotype quality filter threshold |
+| `--pos` | *Optional* | Optional KIR region |
 
-Optional flags
-Flag,Default,Description
-"-t, --threads",20,Number of CPU threads
---filter,0.01 or 0.005, KIR genotype quality filter threshold
---pos,optional KIR region
-
-#Examples
+###Examples
+```bash
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19
 Pre-imputation (recommended for best accuracy)
 Uses minimac4 + bundled reference panels.
@@ -151,7 +174,7 @@ pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 --fill-missing 
 
 pong2 impute -i example/chr19 -o results/run1 -l KIR3DL1 -a hg19 -f
 pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg19 -t 24
-
+```
 
 ### License
 

@@ -247,6 +247,7 @@ If you use PONG2 in your research, please cite:
   doi     = {10.1016/j.humimm.2025.111488},
   url     = {https://doi.org/10.1016/j.humimm.2025.111488}
 }
+```
 
 ### Contact & Support
 

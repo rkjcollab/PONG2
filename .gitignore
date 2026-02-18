@@ -2,7 +2,6 @@
 *.rda
 *.rds
 *.RData
-data/*.rda
 inst/extdata/hg38/*.msav
 inst/extdata/hg19/*.msav
-data/models.rda
+inst/extdata/model

@@ -85,7 +85,6 @@ if (!require("remotes", quietly = TRUE)) {
 }
 
 # Install PONG2 from GitHub
-# Replace 'yourusername' with your actual GitHub username
 remotes::install_github("https://github.com/NormanLabUCD/PONG2")
 ```
 
@@ -191,9 +190,10 @@ You are free to use, modify, and distribute PONG2, provided that:
 - You include the original copyright notice and license text
 
 See the [GNU GPL-3.0 page](https://www.gnu.org/licenses/gpl-3.0.en.html) for details.
+```
 
 ## Citation
-
+```markdown
 If you use PONG2 in your research, please cite:
 
 > Sadeeq, S. A., Leaton, L., Castelli, E., & Norman, P. (2025).  
@@ -214,8 +214,6 @@ If you use PONG2 in your research, please cite:
   doi     = {10.1016/j.humimm.2025.111488}
 }
 ```
-
-
 
 ### Contact & Support
 

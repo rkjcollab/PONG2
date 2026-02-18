@@ -1,4 +1,6 @@
 # Large data files
+
+*.RData
 inst/extdata/hg38/*.msav
 inst/extdata/hg19/*.msav
 inst/extdata/model

@@ -200,8 +200,8 @@ If you use PONG2 in your research, please cite:
 > PONG 2.0: Allele imputation for the killer cell immunoglobulin-like receptors.  
 > *Human Immunology*, 86, 111488.  
 > https://doi.org/10.1016/j.humimm.2025.111488
-
-BibTeX entry:
+```
+###BibTeX entry:
 
 ```bibtex
 @article{sadeeq2025pong,
@@ -234,6 +234,7 @@ BibTeX entry:
 We aim to respond to issues within 1–3 business days.
 
 Happy KIR analysis! 🧬
+```
 
 
 

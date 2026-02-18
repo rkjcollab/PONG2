@@ -1,3 +1,0 @@
-#!/bin/bash
-# Remove CLI tool on package uninstall
-rm -f "$HOME/.local/bin/pong2"

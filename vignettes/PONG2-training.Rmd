@@ -1,0 +1,21 @@
+---
+title: "PONG2 Training: Building Custom KIR Prediction Models"
+author: "Norman Lab"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    fig_width: 7
+    fig_height: 5
+vignette: >
+  %\VignetteIndexEntry{PONG2 Training Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE   # Examples are shown but not executed during vignette build
+)

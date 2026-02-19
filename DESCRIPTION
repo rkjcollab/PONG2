@@ -1,30 +1,37 @@
 Package: PONG2
 Type: Package
-Title: Pulling Out NK cell Genomics (PONG2) -- KIR Genotype
-        Imputation with Attribute Bagging
+Title: Pulling Out NK cell Genomics (PONG2) -- KIR Genotype Imputation with Attribute Bagging
 Version: 1.0.0
-Date: 2021-03-24
-Depends: R (>= 2.14.0)
-Suggests: parallel
-Author: Suraju A Sadeeq, Laura A Leaton, Paul Norman
-Maintainer: Genelle F. Harrison <GenelleFH@gmail.com>
-Description: PONG2 is a modification of HIBAG and was designed to impute KIR3DL1/S1
-	KIR3DL1/S1 alleles from chromosome 19 SNP data. PONG2 the R statistical programming language.
-	We provide models built from the Global populations availible in the 1000 Genomes Project. 
-	PONG2 leverages the functions built in HIBAG using attribute bagging and an 
-	ensemble classifier method with haplotype inference for SNPs and KIR3DL1/S1 types. Please use
-	with an R version < 4.0.
+Date: 2026-02-18
+Description: PONG2 is a modification of HIBAG designed to impute KIR alleles from chromosome 19 SNP data.  
+  It uses attribute bagging and an ensemble classifier method with haplotype inference for SNPs and KIR types.  
+  Models are built from global populations in the 1000 Genomes Project.  
+  Please note: For best compatibility, use R version < 4.0 or ensure Rcpp is up-to-date.
+Authors@R: c(person("Suraju A.", "Sadeeq", email = "suraju.sadeeq@cuanschutz.edu", role = c("aut", "cre")),
+             person("Laura A.", "Leaton", role = "aut"),
+             person("Paul", "Norman", role = "aut"))
+Maintainer: Suraju A. Sadeeq <suraju.sadeeq@cuanschutz.edu>
 License: GPL-3
-URL: https://github.com/n0rmski/PONG2, http://github.com/zhengxwen/HIBAG
-Packaged: 2021-03-25 13:56:36 UTC; genelleharrison
-NeedsCompilation: yes
+URL: https://github.com/NormanLabUCD/PONG2
+BugReports: https://github.com/NormanLabUCD/PONG2/issues
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    Rcpp
+LinkingTo: 
+    Rcpp
+Suggests: 
+    knitr,
+    rmarkdown,
+    pkgdown,
+    parallel,
+    testthat
+VignetteBuilder: knitr
 LazyData: true
 LazyDataCompression: xz
-Repository: CRAN
-Date/Publication: 2021-10-03 06:41:58
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-SystemRequirements: plink
-Config/configure: configure
-Config/cleanup: cleanup
-Configuration/cleanup: configure
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
+SystemRequirements: plink2
+Config/pkgdown:
+    url: https://NormanLabUCD.github.io/PONG2/

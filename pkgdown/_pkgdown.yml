@@ -1,0 +1,29 @@
+url: https://NormanLabUCD.github.io/PONG2/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo   # or flatly, united, cerulean, etc. (nice clean themes)
+
+home:
+  title: PONG2
+  description: >
+    High-accuracy KIR allele imputation and model training from SNP data
+
+navbar:
+  title: "PONG2"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Articles"
+      menu:
+        - text: "Basics"
+          href: articles/PONG2-basics.html
+        - text: "Imputation Workflow"
+          href: articles/PONG2-imputation.html
+        - text: "Training Models"
+          href: articles/PONG2-training.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/NormanLabUCD/PONG2

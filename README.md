@@ -210,8 +210,7 @@ pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg1
 
 ### License
 
-```markdown
-## License
+
 
 PONG2 is licensed under the **GNU General Public License v3.0** (GPL-3.0).
 
@@ -223,31 +222,15 @@ You are free to use, modify, and distribute PONG2, provided that:
 - You include the original copyright notice and license text
 
 See the [GNU GPL-3.0 page](https://www.gnu.org/licenses/gpl-3.0.en.html) for details.
+
+
+### Author 
+
+```markdown
+Suraju A Sadeeq, Laura Ann Leaton, Katherine M Kichula, Neus Font-Porterias, Nicholas R Pollock,
+the Colorado Center for Personalized Medicine, Christopher E Collora, Erick C. Castelli, Christopher R Gignoux, Paul J Norman
 ```
 
-### Citation
-
-If you use PONG2 in your research, please cite:
-
-> Sadeeq, S. A., Leaton, L., Castelli, E., & Norman, P. (2025).  
-> PONG 2.0: Allele imputation for the killer cell immunoglobulin-like receptors.  
-> *Human Immunology*, 86, 111488.  
-> https://doi.org/10.1016/j.humimm.2025.111488
-
-**BibTeX entry**:
-
-```bibtex
-@article{sadeeq2025pong,
-  author  = {Sadeeq, S. A. and Leaton, L. and Castelli, E. and Norman, P.},
-  title   = {PONG 2.0: Allele imputation for the killer cell immunoglobulin-like receptors},
-  journal = {Human Immunology},
-  volume  = {86},
-  pages   = {111488},
-  year    = {2025},
-  doi     = {10.1016/j.humimm.2025.111488},
-  url     = {https://doi.org/10.1016/j.humimm.2025.111488}
-}
-```
 
 ### Contact & Support
 
@@ -264,11 +247,4 @@ If you use PONG2 in your research, please cite:
 
 We aim to respond to issues and emails within 1–3 business days.  
 Thank you for using PONG2 — happy KIR analysis! 🧬
-
-
-
-
-
-
-
 

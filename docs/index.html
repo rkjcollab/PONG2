@@ -6,11 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>PONG2 Basics: Installation, Quick Start, and Core Usage • PONG2</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="PONG2 Basics: Installation, Quick Start, and Core Usage">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="PONG2 Basics: Installation, Quick Start, and Core Usage">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">PONG2</a>
+    <a class="navbar-brand me-2" href="index.html">PONG2</a>
 
     <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
 
@@ -29,14 +29,14 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/PONG2-basics.html">Basics</a></li>
-    <li><a class="dropdown-item" href="../articles/PONG2-imputation.html">Imputation</a></li>
-    <li><a class="dropdown-item" href="../articles/PONG2-training.html">Training</a></li>
+<li><a class="dropdown-item" href="articles/PONG2-basics.html">Basics</a></li>
+    <li><a class="dropdown-item" href="articles/PONG2-imputation.html">Imputation</a></li>
+    <li><a class="dropdown-item" href="articles/PONG2-training.html">Training</a></li>
   </ul>
 </li>
       </ul>
@@ -57,14 +57,14 @@
 
       <h1>PONG2 Basics: Installation, Quick Start, and Core Usage</h1>
                         <h4 data-toc-skip class="author">Norman Lab</h4>
-            
-      
+
+
       <small class="dont-index">Source: <a href="https://github.com/NormanLabUCD/PONG2/blob/HEAD/vignettes/PONG2-basics.Rmd" class="external-link"><code>vignettes/PONG2-basics.Rmd</code></a></small>
       <div class="d-none name"><code>PONG2-basics.Rmd</code></div>
     </div>
 
-    
-    
+
+
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -369,7 +369,7 @@ Example with Eagle2 (hg19)</p>
 <h3 id="hg38-version">hg38 version<a class="anchor" aria-label="anchor" href="#hg38-version"></a>
 </h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">eagle</span> <span class="dt">\</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="at">--bfile</span><span class="op">=</span>../chr19 <span class="dt">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="at">--bfile</span><span class="op">=</span>chr19 <span class="dt">\</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">--geneticMapFile</span><span class="op">=</span>genetic_map_hg38.txt.gz <span class="dt">\</span></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="at">--outPrefix</span><span class="op">=</span>phased_chr19 <span class="dt">\</span></span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">--chrom</span><span class="op">=</span>19 <span class="dt">\</span></span>

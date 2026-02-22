@@ -16,11 +16,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">PONG2</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../docs/index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -65,8 +65,134 @@
 
     
     
-<p>##Overview</p>
-  </main>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>This vignette provides a complete, step-by-step guide to performing
+KIR allele imputation using the <code>impute</code> command in PONG2.
+The workflow covers: - Preparing input data (PLINK → chr19 extraction) -
+Run PONG2 imputation - Pre-imputation - External pre-imputation with
+Michigan Imputation Server (recommended for highest accuracy) - Running
+<code>pong2 impute</code> - Interpreting results</p>
+</div>
+<div class="section level2">
+<h2 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
+</h2>
+<p>PLINK 2.0 installed and in PATH R ≥ 4.0 with PONG2 installed
+(Optional) minimac4 ≥ 4.1.6 for –fill-missing (Optional) Eagle2 or
+SHAPEIT5 for phasing</p>
+</div>
+<div class="section level2">
+<h2 id="step-1-prepare-input-data-extract-chr19-kir-region">Step 1: Prepare input data (extract chr19 KIR region)<a class="anchor" aria-label="anchor" href="#step-1-prepare-input-data-extract-chr19-kir-region"></a>
+</h2>
+<p>PONG2 works best when input files are restricted to chromosome 19 (or
+the KIR locus). Extract chr19 from full-genome PLINK files:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>plink2 \</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="sc">--</span>bfile your_full_genome_prefix \</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="sc">--</span>chr <span class="dv">19</span> \</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="sc">--</span>make<span class="sc">-</span>bed \</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="sc">--</span>out chr19_only</span></code></pre></div>
+<p>This creates chr19_only.bed, chr19_only.bim, chr19_only.fam.</p>
+</div>
+<div class="section level2">
+<h2 id="step-2-run-pong2-imputation">Step 2: Run PONG2 imputation<a class="anchor" aria-label="anchor" href="#step-2-run-pong2-imputation"></a>
+</h2>
+<p>Basic command (assembly can be hg19 or hg38):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># filter can be 0.005 or 0.01 (0.005 allows more rare KIR alleles in output)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">-i</span> chr19_only <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">-o</span> results/final <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">-l</span> KIR <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">-t</span> 10 <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">--filter</span> 0.005</span></code></pre></div>
+<div class="section level3">
+<h3 id="pre-imputation">Pre-imputation<a class="anchor" aria-label="anchor" href="#pre-imputation"></a>
+</h3>
+<p>If the initial SNP matching rate in the KIR region is low (e.g., &lt;
+50%), PONG2 provides two main strategies to improve accuracy by imputing
+missing or low-quality SNPs before running the core PONG2 prediction
+step. <em>Note</em>: Pre-phasing the KIR region is required for both
+local and external pre-imputation.</p>
+</div>
+<div class="section level3">
+<h3 id="local-imputation-fallback-built-in">Local imputation fallback (built-in)<a class="anchor" aria-label="anchor" href="#local-imputation-fallback-built-in"></a>
+</h3>
+<ul>
+<li>Phasing with Eagle (<a href="https://alkesgroup.broadinstitute.org/Eagle/" class="external-link uri">https://alkesgroup.broadinstitute.org/Eagle/</a>)</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">eagle</span> <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">--bfile</span><span class="op">=</span>chr19 <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">--geneticMapFile</span><span class="op">=</span>genetic_map_hg19.txt.gz <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">--outPrefix</span><span class="op">=</span>chr19.phased <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">--chrom</span><span class="op">=</span>19 <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">--numThreads</span><span class="op">=</span>50 <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="at">--bpStart</span><span class="op">=</span>55200000 <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">--bpEnd</span><span class="op">=</span>55300000</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="run-pong2-with-local-pre-imputation-using-minimac4-built-in-quick-automated-using-flag-the---fill-missing">Run PONG2 with local pre-imputation using minimac4 (built-in – quick
+&amp; automated) using flag the <code>--fill-missing</code><a class="anchor" aria-label="anchor" href="#run-pong2-with-local-pre-imputation-using-minimac4-built-in-quick-automated-using-flag-the---fill-missing"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">-i</span> phased_chr19 <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">-o</span> results/local_impute <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">-l</span> KIR <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">-t</span> 10 <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">--filter</span> 0.005 <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">--fill-missing</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="external-pre-imputation-recommended-for-best-accuracy">External pre-imputation (recommended for best accuracy)<a class="anchor" aria-label="anchor" href="#external-pre-imputation-recommended-for-best-accuracy"></a>
+</h3>
+<ul>
+<li>Export to VCF for phasing:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">--bfile</span> chr19_only <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">--export</span> vcf <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">--out</span> chr19_only</span></code></pre></div>
+<ul>
+<li>Upload to Michigan Imputation Server: – You can skip the
+<code>phase</code> option if you have already performed this step –
+Reference panel: multi-ancestry 1KGP reference panel – indicate your
+genomic build (hg19/hg38) – Chromosome: 19 only – Submit → wait for
+email (hours to days)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="convert-to-plink">Convert to PLINK:<a class="anchor" aria-label="anchor" href="#convert-to-plink"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">--vcf</span> imputed.dose.vcf.gz <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  dosage=DS <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">--make-bed</span> <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">--out</span> imputed_ready</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="run-pong2-imputation-no-need-for-fill-missing">Run PONG2 imputation (no need for –fill-missing):<a class="anchor" aria-label="anchor" href="#run-pong2-imputation-no-need-for-fill-missing"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">-i</span> imputed_ready <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">-o</span> results/final <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">-l</span> KIR <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">-t</span> 16 <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="at">--filter</span> 0.005</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="step-3-interpreting-output">Step 3: Interpreting output<a class="anchor" aria-label="anchor" href="#step-3-interpreting-output"></a>
+</h3>
+<p>After pong2 impute: predicted_kir_genotypes.csv — main results
+Columns: sample ID, predicted allele 1, allele 2, confidence, etc.
+snp_matching_report.txt — SNP coverage % and quality metrics
+imputation_log.txt — detailed log tmp/ — temporary files (can be
+deleted)</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

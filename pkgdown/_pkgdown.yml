@@ -1,29 +1,35 @@
-url: https://NormanLabUCD.github.io/PONG2/
+url: https://normanlabucd.github.io/PONG2/
 
 template:
   bootstrap: 5
-  bootswatch: cosmo   # or flatly, united, cerulean, etc. (nice clean themes)
+  theme: default
+  params:
+    bootswatch: null
 
 home:
   title: PONG2
   description: >
     High-accuracy KIR allele imputation and model training from SNP data
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+
 
 navbar:
   title: "PONG2"
   left:
     - text: "Home"
-      href: index.html
+      href: docs/index.html
     - text: "Reference"
-      href: reference/index.html
+      href: docs/index.html
     - text: "Articles"
       menu:
         - text: "Basics"
           href: articles/PONG2-basics.html
-        - text: "Imputation Workflow"
+        - text: "Imputation"
           href: articles/PONG2-imputation.html
-        - text: "Training Models"
+        - text: "Training"
           href: articles/PONG2-training.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/NormanLabUCD/PONG2
+      aria-label: "PONG2 source code on GitHub"   # ← This fixes the warning

@@ -16,11 +16,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">PONG2</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../docs/index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -68,6 +68,131 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
+<p>This vignette provides a complete, step-by-step guide to training
+custom KIR prediction models using the train command in PONG2. Training
+is useful when:</p>
+<p>-You have a new or population-specific reference dataset -You want to
+update models with additional samples -You need locus-specific models
+(e.g. only KIR3DL1/S1) -You want to experiment with different SNP
+quality filters</p>
+<p>Prerequisites:</p>
+<ul>
+<li>PLINK 2.0 installed and in PATH</li>
+<li>R ≥ 4.0 with PONG2 installed</li>
+<li>Reference PLINK files (chr19 or KIR region)</li>
+<li>Known KIR allele calls in CSV format</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="input-data-requirements">Input Data Requirements<a class="anchor" aria-label="anchor" href="#input-data-requirements"></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>Reference genotypes (–bfile)</li>
+</ol>
+<ul>
+<li>PLINK bed/bim/fam files containing SNPs in the KIR locus
+(chr19)</li>
+<li>Recommended: extract region first to reduce size</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">--bfile</span> full_reference <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">--chr</span> 19 <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">--make-bed</span> <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">--out</span> reference_chr19</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Known KIR calls (–kfile)</li>
+</ol>
+<p>CSV file with sample IDs and allele calls Minimal format with header
+optional:</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">sample_id</th>
+<th align="left">KIR2DL1_h1</th>
+<th align="left">KIR2DL1_h2</th>
+<th align="left">KIR3DL1_h1</th>
+<th align="left">KIR3DL1_h2</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>SAMPLE001</code></td>
+<td align="left"><code>*00101</code></td>
+<td align="left"><code>*00302</code></td>
+<td align="left">`<code>*00101</code>
+</td>
+<td align="left"><code>*00201</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>SAMPLE002</code></td>
+<td align="left"><code>*00104</code></td>
+<td align="left"><code>*0000</code></td>
+<td align="left"><code>*00401</code></td>
+<td align="left"><code>*00501</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>SAMPLE003</code></td>
+<td align="left"><code>*009</code></td>
+<td align="left"><code>*00601</code></td>
+<td align="left"><code>*00302</code></td>
+<td align="left"><code>*00101</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Columns: two per KIR locus/gene where h1 and h2 represent KIR
+haplotypes</li>
+<li>Alleles: use standard nomenclature (e.g. <em>001, </em>00201)</li>
+<li>null allele: leave as <code>*0000</code>
+</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="run-training">Run training<a class="anchor" aria-label="anchor" href="#run-training"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">pong2</span> train <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">-i</span> reference_chr19 <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">-k</span> kir_calls.csv <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">-o</span> models/custom <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">-l</span> KIR <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">-t</span> 10</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="after-training-completes-the-output-directory--o-will-contain">After training completes, the output directory (-o) will
+contain:<a class="anchor" aria-label="anchor" href="#after-training-completes-the-output-directory--o-will-contain"></a>
+</h2>
+<ul>
+<li>model.rds or model.RData — trained prediction model (main file)</li>
+<li>training_log.txt — summary of training process, metrics, and
+warnings</li>
+<li>tmp/ — temporary files (can be deleted)</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="using-a-custom-model-for-imputation">Using a custom model for imputation<a class="anchor" aria-label="anchor" href="#using-a-custom-model-for-imputation"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">-i</span> chr19 <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">-o</span> results/ <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">-l</span> KIR <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">-m</span> models/custom/model.rds</span></code></pre></div>
+<p><em>Note:</em> The <code>-m, --model</code> flag is used to specify a
+custom model file.</p>
+</div>
+<div class="section level2">
+<h2 id="troubleshooting-training">Troubleshooting Training<a class="anchor" aria-label="anchor" href="#troubleshooting-training"></a>
+</h2>
+<ul>
+<li>“No matching samples” → Ensure sample IDs in –kfile exactly match
+PLINK .fam</li>
+<li>Low SNP coverage → Increase –filter or pre-impute reference
+panel</li>
+<li>Memory issues → Reduce threads or use a machine with more RAM</li>
+<li>Slow training → Use more –threads or smaller reference dataset</li>
+</ul>
+<p>For more details on model structure and prediction logic, see the
+package reference or source code. Questions or issues? Open a GitHub
+issue. Happy model training! 🧬</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

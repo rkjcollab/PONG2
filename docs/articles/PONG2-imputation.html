@@ -106,18 +106,19 @@ the KIR locus). Extract chr19 from full-genome PLINK files:</p>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">-a</span> hg38 <span class="dt">\</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">-t</span> 10 <span class="dt">\</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">--filter</span> 0.005</span></code></pre></div>
-<div class="section level3">
-<h3 id="pre-imputation">Pre-imputation<a class="anchor" aria-label="anchor" href="#pre-imputation"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="pre-imputation">Pre-imputation<a class="anchor" aria-label="anchor" href="#pre-imputation"></a>
+</h2>
 <p>If the initial SNP matching rate in the KIR region is low (e.g., &lt;
 50%), PONG2 provides two main strategies to improve accuracy by imputing
 missing or low-quality SNPs before running the core PONG2 prediction
-step. <em>Note</em>: Pre-phasing the KIR region is required for both
-local and external pre-imputation.</p>
+step. <strong>Note</strong>: Pre-phasing the KIR region is required for
+both local and external pre-imputation.</p>
 </div>
-<div class="section level3">
-<h3 id="local-imputation-fallback-built-in">Local imputation fallback (built-in)<a class="anchor" aria-label="anchor" href="#local-imputation-fallback-built-in"></a>
-</h3>
+<div class="section level2">
+<h2 id="local-imputation-fallback-built-in">Local imputation fallback (built-in)<a class="anchor" aria-label="anchor" href="#local-imputation-fallback-built-in"></a>
+</h2>
 <ul>
 <li>Phasing with Eagle (<a href="https://alkesgroup.broadinstitute.org/Eagle/" class="external-link uri">https://alkesgroup.broadinstitute.org/Eagle/</a>)</li>
 </ul>
@@ -130,10 +131,10 @@ local and external pre-imputation.</p>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="at">--bpStart</span><span class="op">=</span>55200000 <span class="dt">\</span></span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">--bpEnd</span><span class="op">=</span>55300000</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="run-pong2-with-local-pre-imputation-using-minimac4-built-in-quick-automated-using-flag-the---fill-missing">Run PONG2 with local pre-imputation using minimac4 (built-in – quick
+<div class="section level2">
+<h2 id="run-pong2-with-local-pre-imputation-using-minimac4-built-in-quick-automated-using-flag-the---fill-missing">Run PONG2 with local pre-imputation using minimac4 (built-in – quick
 &amp; automated) using flag the <code>--fill-missing</code><a class="anchor" aria-label="anchor" href="#run-pong2-with-local-pre-imputation-using-minimac4-built-in-quick-automated-using-flag-the---fill-missing"></a>
-</h3>
+</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">-i</span> phased_chr19 <span class="dt">\</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">-o</span> results/local_impute <span class="dt">\</span></span>
@@ -143,9 +144,9 @@ local and external pre-imputation.</p>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">--filter</span> 0.005 <span class="dt">\</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">--fill-missing</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="external-pre-imputation-recommended-for-best-accuracy">External pre-imputation (recommended for best accuracy)<a class="anchor" aria-label="anchor" href="#external-pre-imputation-recommended-for-best-accuracy"></a>
-</h3>
+<div class="section level2">
+<h2 id="external-pre-imputation-recommended-for-best-accuracy">External pre-imputation (recommended for best accuracy)<a class="anchor" aria-label="anchor" href="#external-pre-imputation-recommended-for-best-accuracy"></a>
+</h2>
 <ul>
 <li>Export to VCF for phasing:</li>
 </ul>
@@ -161,18 +162,18 @@ genomic build (hg19/hg38) – Chromosome: 19 only – Submit → wait for
 email (hours to days)</li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="convert-to-plink">Convert to PLINK:<a class="anchor" aria-label="anchor" href="#convert-to-plink"></a>
-</h3>
+<div class="section level2">
+<h2 id="convert-to-plink">Convert to PLINK:<a class="anchor" aria-label="anchor" href="#convert-to-plink"></a>
+</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">--vcf</span> imputed.dose.vcf.gz <span class="dt">\</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  dosage=DS <span class="dt">\</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">--make-bed</span> <span class="dt">\</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">--out</span> imputed_ready</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="run-pong2-imputation-no-need-for-fill-missing">Run PONG2 imputation (no need for –fill-missing):<a class="anchor" aria-label="anchor" href="#run-pong2-imputation-no-need-for-fill-missing"></a>
-</h3>
+<div class="section level2">
+<h2 id="run-pong2-imputation-no-need-for-fill-missing">Run PONG2 imputation (no need for –fill-missing):<a class="anchor" aria-label="anchor" href="#run-pong2-imputation-no-need-for-fill-missing"></a>
+</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">pong2</span> impute <span class="dt">\</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">-i</span> imputed_ready <span class="dt">\</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">-o</span> results/final <span class="dt">\</span></span>
@@ -181,15 +182,17 @@ email (hours to days)</li>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">-t</span> 16 <span class="dt">\</span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="at">--filter</span> 0.005</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="step-3-interpreting-output">Step 3: Interpreting output<a class="anchor" aria-label="anchor" href="#step-3-interpreting-output"></a>
-</h3>
-<p>After pong2 impute: predicted_kir_genotypes.csv — main results
-Columns: sample ID, predicted allele 1, allele 2, confidence, etc.
-snp_matching_report.txt — SNP coverage % and quality metrics
-imputation_log.txt — detailed log tmp/ — temporary files (can be
-deleted)</p>
-</div>
+<div class="section level2">
+<h2 id="step-3-interpreting-output">Step 3: Interpreting output<a class="anchor" aria-label="anchor" href="#step-3-interpreting-output"></a>
+</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="an">After pong2 impute:</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>predicted_kir_genotypes.csv — main results</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>Columns: sample ID, predicted allele 1, allele 2, confidence, etc.</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>snp_matching_report.txt — SNP coverage % and quality metrics</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>imputation_log.txt — detailed log</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>tmp/ — temporary files (can be deleted)</span></code></pre></div>
+<p>For model training, see vignette “PONG2-training”. Questions or
+issues? Open a GitHub issue. Happy KIR imputation! 🧬</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

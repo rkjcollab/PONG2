@@ -161,7 +161,7 @@ function imputation() {
             fi
 
             # Imputation
-           [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] || run_minimac4_416 "$PONG2_root/extdata/$ASSEMBLY/"*.msav "$OUTPUT_DIR/tmp/$filename.vcf.gz" --region "$chr":"$start"-"$end" -o "$OUTPUT_DIR/tmp/tmp.imputed.$filename.vcf.gz" -c 1000000 -t $THREADS -e "$OUTPUT_DIR/tmp/empirical.imputed_$filename.vcf.gz"  --format DS
+           [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] ||
            [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] || mv "$OUTPUT_DIR/tmp/tmp.imputed.$filename.vcf.gz" "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz"
            plink2 --version 2>/dev/null | grep -q "2.0" && plink2 --vcf "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" dosage=DS --import-dosage-certainty 0.8 --make-pgen --out "$OUTPUT_DIR/tmp/imputed.$filename" --silent
            plink2 --version 2>/dev/null | grep -q "2.0" && plink2 --pfile "$OUTPUT_DIR/tmp/imputed.$filename" --make-bed --out "$OUTPUT_DIR/tmp/imputed.$filename" --silent

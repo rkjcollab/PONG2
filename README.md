@@ -164,7 +164,7 @@ pong2 train [options]
 | :--- | :--- | :--- |
 | `-t, --threads` | `20` | Number of CPU threads |
 | `--filter` | `0.01` | KIR genotype quality filter threshold |
-| `p, or --position` | *Optional* | Optional KIR region |
+| `p, or --position` | *Optimized KIR region* | Optional KIR region |
 
 ### Examples
 #### 1.

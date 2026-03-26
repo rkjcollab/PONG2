@@ -65,9 +65,26 @@ genotype <- hlaBED2Geno(bed.fn, fam.fn, bim.fn, import.chr='19', assembly=assemb
 geno <- hlaGenoSubsetFlank(genotype, locus, region*5000, assembly=assembly)
 pred.guess <- kirPredict(model, geno, type="response+prob")
 
-dir.create(output, "/KIR/", recursive = TRUE)
-save(pred.guess, file=paste0(output, "/KIR/", locus, ".RData"))
-write.table(pred.guess$value, file=paste0(output, "/KIR/", locus, ".csv"), row.names = FALSE, col.names = TRUE, sep = ",", quote = FALSE)
-print(paste0("results saved in ",output, "/KIR/"))
+# dir.create(output, "/KIR/", recursive = TRUE)
+# save(pred.guess, file=paste0(output, "/KIR/", locus, ".RData"))
+# write.table(pred.guess$value, file=paste0(output, "/KIR/", locus, ".csv"), row.names = FALSE, col.names = TRUE, sep = ",", quote = FALSE)
+# print(paste0("results saved in ",output, "/KIR/"))
+# print("Prediction done..")
+
+# Define the full directory path
+out_dir <- file.path(output, "KIR")
+
+# Create the directory safely
+if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
+# Save the RData file
+save(pred.guess, file = file.path(out_dir, paste0(locus, ".RData")))
+
+# Write the CSV file
+write.table(pred.guess$value,
+            file = file.path(out_dir, paste0(locus, ".csv")),
+            row.names = FALSE, col.names = TRUE, sep = ",", quote = FALSE)
+
+print(paste0("Results saved in ", out_dir))
 print("Prediction done..")
 

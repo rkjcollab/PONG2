@@ -211,7 +211,7 @@ pong2 train -i example/chr19 -k example/kir_calls.csv -o models/v2 -l KIR -a hg1
 ### KIR Region SNP Overlap between input data and 1KGP
 
 Overlap rate is computed between your input data and the 1000 Genomes Project (1KGP) 
-reference panel in the KIR region (chr19:54,600,000-55,200,000).
+reference panel in the KIR region.
 
 | Overlap Rate | Status | Action |
 |-------------|--------|--------|

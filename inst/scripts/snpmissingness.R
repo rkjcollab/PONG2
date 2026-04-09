@@ -17,9 +17,11 @@ stopifnot(
   !is.na(PONG2_root)
 )
 
-# locus="KIR2DL1"
+
+# input="/home/suraju/freeze4_19/freeze4_19_match.nodup"
+# locus="KIR3DL1S1"
+# filter="0.005"
 # assembly="hg38"
-# filter=0.005
 
 modelObject <- function(locus, filter=0.005, assembly = c("hg38", "hg19")){
 

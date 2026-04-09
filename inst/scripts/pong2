@@ -41,7 +41,7 @@ PONG2_root=$(Rscript -e 'cat(system.file(package="PONG2"))' 2>/dev/null)
 
 # Default variables
 THREADS=20
-FILTER=0.01
+FILTER=0.005
 FORCE="false"
 FILL_MISSING="false"
 
@@ -131,6 +131,7 @@ function imputation() {
     #1. check SNP missingness against the model
     echo "Matching input SNP postions and  with the KIR locus"
      MISSINGNESS=$($RSCRIPT  -e "cat(system.file('scripts', 'snpmissingness.R', package='PONG2'))")
+
      matching=$($RSCRIPT --vanilla "$MISSINGNESS" \
     "$OUTPUT_DIR/tmp/$filename" \
     "$OUTPUT_DIR"\
@@ -138,8 +139,9 @@ function imputation() {
     "$LOCUS"\
     "$FILTER"\
     "$PONG2_root")
-    matching_pct=$(awk "BEGIN {printf \"%.0f\", $matching * 100}")
 
+    matching_pct=$(awk "BEGIN {printf \"%.0f\", $matching * 100}")
+    #echo $matching
     # Note that you cannot use --force fill-missing together
     if awk -v m="$matching" 'BEGIN { exit (m < 0.6) ? 0 : 1 }'; then
        echo -e "More than 50% of the SNPs are missing. ${RED}Error: High missing rate${NC}"

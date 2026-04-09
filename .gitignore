@@ -1,5 +1,5 @@
 # Large data files
-
+PONG2_1.0.0.tar.gz
 *.RData
 inst/extdata/hg38/*.msav
 inst/extdata/hg19/*.msav

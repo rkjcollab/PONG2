@@ -48,8 +48,8 @@ modelObject <- function(locus, filter=0.005, assembly = c("hg38", "hg19")){
   return(mobj)
 }
 
-# input="/home/suraju/out2/tmp/chr19_freeze3_RISEMS_051623_deID.nodup"
-# locus="KIR3DL2"
+# input="/home/suraju/freeze4_19/freeze4_19_match.nodup"
+# locus="KIR3DL1S1"
 # filter="0.005"
 # assembly="hg38"
 

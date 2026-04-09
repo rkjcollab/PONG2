@@ -89,7 +89,11 @@ pong2_models <- list(
       KIR2DS4 = get(load("~/projects/KIR_Methods/model/hg38/0.005/KIR2DS4/KIR2DS4_54803610_54867207_model.RData")),
       KIR2DS2 = get(load("~/projects/KIR_Methods/model/hg38/0.005/KIR2DS2/KIR2DS2_54724442_54790417_model.RData")),
       KIR2DS1 = get(load("~/projects/KIR_Methods/model/hg38/0.005/KIR2DS1/KIR2DS1_54724442_54867207_model.RData")),
-      KIR2DS5 = get(load("~/projects/KIR_Methods/model/hg38/0.005/KIR2DS5/KIR2DS5_54724442_54867207_model.RData"))
+      KIR2DS5 = get(load("~/projects/KIR_Methods/model/hg38/0.005/KIR2DS5/KIR2DS5_54724442_54867207_model.RData")),
+      KIR3DL1S1 = get(load("~/projects/KIR_Methods/kir3dl1s1/hg38/0/KIR3DL1S1/KIR3DL1S1_54724442_54867207_model.RData")),
+      KIR3DS1 = get(load("~/projects/KIR_Methods/kir3dl1s1/hg38/0/KIR3DS1/KIR3DS1_54724442_54867207_model.RData")),
+      KIR2DL2 = get(load("~/projects/KIR_Methods/kir2dl23/hg38/0/KIR2DL2/KIR2DL2_54724442_54790417_model.RData")),
+      KIR2DL23 = get(load("~/projects/KIR_Methods/kir2dl23/hg38/0/KIR2DL23/KIR2DL23_54724442_54790417_model.RData"))
     )
   )
 )

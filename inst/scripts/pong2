@@ -58,6 +58,14 @@ pos() {
     esac
 }
 
+ref_file() {
+    case "$1" in
+        hg19) echo "ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes" ;;
+        hg38) echo "1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel" ;;
+        *)    echo "Unknown assembly: $1" >&2; exit 1 ;;
+    esac
+}
+
 #Development mode
 #R CMD INSTALL --preclean --with-keep.source --no-multiarch .
 #packageVersion("PONG2")  # Should show dev version (e.g., 0.99.0.9000)
@@ -154,7 +162,8 @@ function imputation() {
             # Plink to vcf
            if [ "$ASSEMBLY" == "hg38" ]; then
               [ -f "$OUTPUT_DIR/tmp/$filename.vcf.gz" ] || plink2 --version 2>/dev/null | grep -q "2.0" && plink2 --bfile "$OUTPUT_DIR/tmp/$filename" --export vcf bgz  --out "$OUTPUT_DIR/tmp/$filename" --silent
-              zcat "$OUTPUT_DIR/tmp/$filename.vcf.gz" | sed 's/^19/chr19/' | bgzip > "$OUTPUT_DIR/tmp/$filename.tmp.vcf.gz"
+              bgzip -dc "$OUTPUT_DIR/tmp/$filename.vcf.gz" | sed 's/^19/chr19/' | bgzip > "$OUTPUT_DIR/tmp/$filename.tmp.vcf.gz"
+
               mv "$OUTPUT_DIR/tmp/$filename.tmp.vcf.gz" "$OUTPUT_DIR/tmp/$filename.vcf.gz"
               tabix -f "$OUTPUT_DIR/tmp/$filename.vcf.gz"
              else
@@ -163,7 +172,8 @@ function imputation() {
             fi
 
             # Imputation
-           [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] ||
+           reference_msav="$PONG2_root/extdata/$ASSEMBLY/$(ref_file "$ASSEMBLY").msav"
+           [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] || run_minimac4_416 --threads "$THREADS" --format DS --output "$OUTPUT_DIR/tmp/tmp.imputed.$filename.vcf.gz" "$reference_msav" "$OUTPUT_DIR/tmp/$filename.vcf.gz"
            [ -f "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" ] || mv "$OUTPUT_DIR/tmp/tmp.imputed.$filename.vcf.gz" "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz"
            plink2 --version 2>/dev/null | grep -q "2.0" && plink2 --vcf "$OUTPUT_DIR/tmp/imputed.$filename.vcf.gz" dosage=DS --import-dosage-certainty 0.8 --make-pgen --out "$OUTPUT_DIR/tmp/imputed.$filename" --silent
            plink2 --version 2>/dev/null | grep -q "2.0" && plink2 --pfile "$OUTPUT_DIR/tmp/imputed.$filename" --make-bed --out "$OUTPUT_DIR/tmp/imputed.$filename" --silent

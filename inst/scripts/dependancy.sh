@@ -5,7 +5,7 @@ OUTPUT_DIR="$1"
 ASSEMBLY="$2"
 TOOL=$3
 # Configuration
-BIN_DIR="$HOME/bin"
+BIN_DIR="${CONDA_PREFIX:-$HOME}/bin"
 
 if [ "$TOOL" == "minimac4" ]; then
   REQUIRED_APPS=("$TOOL" "hg")
@@ -29,7 +29,7 @@ mkdir -p "$BIN_DIR"
 mkdir -p "$OUTPUT_DIR/tmp"
 PONG2_root=$(Rscript -e 'cat(system.file(package="PONG2"))' 2>/dev/null)
 
-if [ $ASSEMBLY = "hg19" ]; then
+if [ "$ASSEMBLY" = "hg19" ]; then
   ref_file="ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes"
 else
   ref_file="1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel"
@@ -172,7 +172,7 @@ install_ref(){
 prompt_install() {
     local app=$1
     while true; do
-        if [[ "$app"=="hg" ]]; then
+        if [[ "$app" == "hg" ]]; then
           Install="Download $ASSEMBLY"
           Installation="Downloading"
         else
@@ -182,7 +182,7 @@ prompt_install() {
         read -rp "$Install? [y/n]: " yn
         case "$yn" in
             [Yy]*)
-                if [[ "$app"=="hg" ]]; then
+                if [[ "$app" == "hg" ]]; then
                   "install_ref"
                 else
                     "install_${app}"

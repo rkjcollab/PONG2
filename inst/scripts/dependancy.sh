@@ -15,7 +15,8 @@ fi
 
 export PATH="$BIN_DIR:$PATH"  # Add to PATH temporarily
 
-hg=("ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes", "1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel")
+hg=("ALL.chr19.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes" "1kGP_high_coverage_Illumina.chr19.filtered.SNV_INDEL_SV_phased_panel")
+
 
 # Color codes
 RED='\033[0;31m'
